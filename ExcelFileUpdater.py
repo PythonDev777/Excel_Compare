@@ -20,8 +20,8 @@ class Ui_ExFileWindow(object):
 
     def setupUi(self, ExFileWindow):
         ExFileWindow.setObjectName("ExFileWindow")
-        ExFileWindow.resize(750,200)
-        ExFileWindow.setFixedSize(450, 200)
+        ExFileWindow.resize(750,300)
+        ExFileWindow.setFixedSize(450, 225)
         self.centralwidget = QtWidgets.QWidget(ExFileWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.updateButton = QtWidgets.QPushButton(self.centralwidget)
@@ -111,7 +111,7 @@ class Ui_ExFileWindow(object):
 
             with pd.ExcelWriter(self.secondary_file[0], mode='w') as writer:
                 file.to_excel(writer)
-                
+
             self.secondaryTextBox.setText('')
             msgbox = QtWidgets.QMessageBox()
             msgbox.setWindowTitle('Update')
@@ -129,4 +129,3 @@ if __name__ == "__main__":
     ui.setupUi(ExFileWindow)
     ExFileWindow.show()
     sys.exit(app.exec_())
-
