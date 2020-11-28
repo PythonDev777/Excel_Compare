@@ -111,6 +111,13 @@ class Ui_ExFileWindow(object):
 
             with pd.ExcelWriter(self.secondary_file[0], mode='w') as writer:
                 file.to_excel(writer)
+                
+            self.secondaryTextBox.setText('')
+            msgbox = QtWidgets.QMessageBox()
+            msgbox.setWindowTitle('Update')
+            msgbox.setText("File Update Complete!")
+            msgbox.exec_()
+
 
 
 
