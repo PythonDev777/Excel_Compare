@@ -24,13 +24,13 @@ VSVersionInfo(
     # Creation date and time stamp. Sets it automatically. Do not change.
     date=(0, 0) #<- Do not change
     ),
-  kids=[ 
-    StringFileInfo( 
-      [ 
+  kids=[
+    StringFileInfo(
+      [
       StringTable(
         u'040904b0',
         [StringStruct(u'CompanyName', u'unknown'),
-        StringStruct(u'ProductName', u'RomeSync'),
+        StringStruct(u'ProductName', u'unknown'),
         StringStruct(u'ProductVersion', u'0.0.0.2'), #<- should be same as filevers
         StringStruct(u'OriginalFilename', u'ExcelFileUpdater.exe'),
         StringStruct(u'FileDescription', u'Update Excel File from Master'),
