@@ -13,6 +13,7 @@ class Ui_ExFileWindow(object):
     def __init__(self):
         self.master_file = ''
         self.secondary_file = ''
+        self.new_file = ''
         # self.master = f"{os.path.dirname(os.path.abspath(__file__))}/FRS  MASTER FILE WITH HEARING DATES C & I COUNTY COURT (1) (1).xlsx"
         # self.format_file = f"{os.path.dirname(os.path.abspath(__file__))}/11_20_2020 BRWD FJ RAW.xlsx"
         self.master_case_numbers = []
@@ -40,15 +41,26 @@ class Ui_ExFileWindow(object):
         self.masterFileButton.setObjectName("masterFileButton")
         self.masterFileButton.clicked.connect(self.select_master_file_button) # run function in select master file
         self.secondaryLabel = QtWidgets.QLabel(self.centralwidget)
-        self.secondaryLabel.setGeometry(QtCore.QRect(9, 90, 91, 20))
+        self.secondaryLabel.setGeometry(QtCore.QRect(9, 70, 91, 20))
         self.secondaryLabel.setObjectName("secondaryLabel")
         self.secondaryTextBox = QtWidgets.QLineEdit(self.centralwidget)
-        self.secondaryTextBox.setGeometry(QtCore.QRect(110, 90, 271, 21))
+        self.secondaryTextBox.setGeometry(QtCore.QRect(110, 70, 271, 21))
         self.secondaryTextBox.setObjectName("secondaryTextBox")
         self.secondaryFileButton = QtWidgets.QToolButton(self.centralwidget)
         self.secondaryFileButton.clicked.connect(self.select_secondary_file_button) # run function in select master file
-        self.secondaryFileButton.setGeometry(QtCore.QRect(390, 90, 41, 21))
+        self.secondaryFileButton.setGeometry(QtCore.QRect(390, 70, 41, 21))
         self.secondaryFileButton.setObjectName("secondaryFileButton")
+        self.newFileLabel = QtWidgets.QLabel(self.centralwidget)
+        self.newFileLabel.setGeometry(QtCore.QRect(29, 110, 71, 20))
+        self.newFileLabel.setObjectName("newFileLabel")
+        self.newFileTextbox = QtWidgets.QLineEdit(self.centralwidget)
+        self.newFileTextbox.setGeometry(QtCore.QRect(110, 110, 271, 21))
+        self.newFileTextbox.setText("")
+        self.newFileTextbox.setObjectName("newFileTextbox")
+        self.newFileButton = QtWidgets.QToolButton(self.centralwidget)
+        self.newFileButton.setGeometry(QtCore.QRect(390, 110, 41, 21))
+        self.newFileButton.setObjectName("newFileButton")
+        self.newFileButton.clicked.connect(self.select_new_file_button) # run function in select master file
         self.exitButton = QtWidgets.QPushButton(self.centralwidget)
         self.exitButton.setGeometry(QtCore.QRect(210, 140, 113, 32))
         self.exitButton.setObjectName("exitButton")
@@ -72,6 +84,8 @@ class Ui_ExFileWindow(object):
         self.masterFileButton.setText(_translate("ExFileWindow", "..."))
         self.secondaryLabel.setText(_translate("ExFileWindow", "Secondary File"))
         self.secondaryFileButton.setText(_translate("ExFileWindow", "..."))
+        self.newFileLabel.setText(_translate("ExFileWindow", "New File"))
+        self.newFileButton.setText(_translate("ExFileWindow", "..."))
         self.exitButton.setText(_translate("ExFileWindow", "Exit"))
 
     def select_master_file_button(self):
@@ -83,6 +97,10 @@ class Ui_ExFileWindow(object):
         self.secondary_file = QtWidgets.QFileDialog.getOpenFileName(None,"QFileDialog.getOpenFileName()")
         print(self.secondary_file[0])
         self.secondaryTextBox.setText(self.secondary_file[0])
+
+    def select_new_file_button(self):
+        self.new_file = QtWidgets.QFileDialog.getSaveFileName()
+        self.newFileTextbox.setText(self.new_file[0])
 
     def close_application_button(self):
         print('closing')
@@ -109,14 +127,17 @@ class Ui_ExFileWindow(object):
                 file.loc[index, 'Zip'] = zip_code
                 file.loc[index, 'Amount $'] = amount
 
-            with pd.ExcelWriter(self.secondary_file[0], mode='w') as writer:
+            new_file_with_extension = self.new_file[0] + '.xlsx'
+            with pd.ExcelWriter(new_file_with_extension, mode='w') as writer:
                 file.to_excel(writer)
 
-            self.secondaryTextBox.setText('')
             msgbox = QtWidgets.QMessageBox()
             msgbox.setWindowTitle('Update')
             msgbox.setText("File Update Complete!")
             msgbox.exec_()
+            self.secondaryTextBox.setText('')
+            self.newFileTextbox.setText('')
+            
 
 
 
