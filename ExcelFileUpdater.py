@@ -115,10 +115,6 @@ class Ui_ExFileWindow(object):
                 continue
             print('Updating Case Number ....' + case_number)
             file_row_content = file.loc[file['Case #'] == case_number]
-            df.loc[index, 'Unnamed: 0'] = file_row_content['Unnamed: 0'].values[0]
-            df.loc[index, 'Unnamed: 0.1'] = file_row_content['Unnamed: 0.1'].values[0]
-            df.loc[index, 'Unnamed: 0.1.1'] = file_row_content['Unnamed: 0.1.1'].values[0]
-            df.loc[index, 'Unnamed: 0.1.1.1'] = file_row_content['Unnamed: 0.1.1.1'].values[0]
             df.loc[index, 'ClerkFileNumber'] = file_row_content['ClerkFileNumber'].values[0]
             df.loc[index, 'Date'] = file_row_content['Date'].values[0]
             df.loc[index, 'Plaintiff'] = file_row_content['Plaintiff'].values[0]
