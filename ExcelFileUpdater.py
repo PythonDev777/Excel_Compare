@@ -9,15 +9,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import pandas as pd
 
+
 class Ui_ExFileWindow(object):
     def __init__(self):
         self.master_file = ''
         self.secondary_file = ''
         self.new_file = ''
-        # self.master = f"{os.path.dirname(os.path.abspath(__file__))}/FRS  MASTER FILE WITH HEARING DATES C & I COUNTY COURT (1) (1).xlsx"
-        # self.format_file = f"{os.path.dirname(os.path.abspath(__file__))}/11_20_2020 BRWD FJ RAW.xlsx"
-        self.master_case_numbers = []
-
 
     def setupUi(self, ExFileWindow):
         ExFileWindow.setObjectName("ExFileWindow")
@@ -107,40 +104,46 @@ class Ui_ExFileWindow(object):
         sys.exit()
 
     def query_data_and_update_contents_excel_file(self):
-            file = pd.read_excel(self.secondary_file[0])
-            master = pd.read_excel(self.master_file[0])
-            file_case_num = file[['Case #']]
-            for index, case_num in file_case_num.iterrows():
-                case_number = case_num['Case #']
-                update_cred = master.loc[master['Case Number'] == case_number]
-                if update_cred.empty:
-                    continue
-                print('Updating Case Number ....' + case_number)
-                address = update_cred['Address'].values[0]
-                city = update_cred['City'].values[0]
-                zip_code = update_cred['Zip Code'].values[0]
-                state = update_cred['ST'].values[0]
-                amount = update_cred['Code'].values[0]
-                file.loc[index, 'Mailing Address'] = address
-                file.loc[index, 'City'] = city
-                file.loc[index, 'ST'] = state
-                file.loc[index, 'Zip'] = zip_code
-                file.loc[index, 'Amount $'] = amount
+        file = pd.read_excel(self.secondary_file[0])
+        master = pd.read_excel(self.master_file[0])
+        file_case_num = file[['Case #']]
+        df = pd.DataFrame(columns=file.columns)
+        for index, case_num in file_case_num.iterrows():
+            case_number = case_num['Case #']
+            update_cred = master.loc[master['Case Number'] == case_number]
+            if update_cred.empty:
+                continue
+            print('Updating Case Number ....' + case_number)
+            file_row_content = file.loc[file['Case #'] == case_number]
+            df.loc[index, 'Unnamed: 0'] = file_row_content['Unnamed: 0'].values[0]
+            df.loc[index, 'Unnamed: 0.1'] = file_row_content['Unnamed: 0.1'].values[0]
+            df.loc[index, 'Unnamed: 0.1.1'] = file_row_content['Unnamed: 0.1.1'].values[0]
+            df.loc[index, 'Unnamed: 0.1.1.1'] = file_row_content['Unnamed: 0.1.1.1'].values[0]
+            df.loc[index, 'ClerkFileNumber'] = file_row_content['ClerkFileNumber'].values[0]
+            df.loc[index, 'Date'] = file_row_content['Date'].values[0]
+            df.loc[index, 'Plaintiff'] = file_row_content['Plaintiff'].values[0]
+            df.loc[index, 'Type'] = file_row_content['Type'].values[0]
+            df.loc[index, 'Amount $'] = update_cred['Code'].values[0]
+            df.loc[index, 'Case #'] = case_number
+            df.loc[index, 'Def First'] = file_row_content['Def First'].values[0]
+            df.loc[index, 'Def MI'] = file_row_content['Def MI'].values[0]
+            df.loc[index, 'Def Last'] = file_row_content['Def Last'].values[0]
+            df.loc[index, 'Mailing Address'] = update_cred['Address'].values[0]
+            df.loc[index, 'City'] = update_cred['City'].values[0]
+            df.loc[index, 'ST'] = update_cred['ST'].values[0]
+            df.loc[index, 'Zip'] = update_cred['Zip Code'].values[0]
 
-            new_file_with_extension = self.new_file[0] + '.xlsx'
-            with pd.ExcelWriter(new_file_with_extension, mode='w') as writer:
-                file.to_excel(writer)
+        new_file_with_extension = self.new_file[0] + '.xlsx'
+        with pd.ExcelWriter(new_file_with_extension, mode='w') as writer:
+            file.to_excel(writer)
 
-            msgbox = QtWidgets.QMessageBox()
-            msgbox.setWindowTitle('Update')
-            msgbox.setText("File Update Complete!")
-            msgbox.exec_()
-            self.secondaryTextBox.setText('')
-            self.newFileTextbox.setText('')
-            
-
-
-
+        msgbox = QtWidgets.QMessageBox()
+        msgbox.setWindowTitle('Update')
+        msgbox.setText("File Update Complete!")
+        msgbox.exec_()
+        self.secondaryTextBox.setText('')
+        self.newFileTextbox.setText('')
+        
 
 if __name__ == "__main__":
     import sys
