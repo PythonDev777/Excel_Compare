@@ -22,7 +22,6 @@ class ExcelCompare:
             file_row_content = file.loc[file['Case #'] == case_number]
             df.loc[index, 'ClerkFileNumber'] = file_row_content['ClerkFileNumber'].values[0]
             df.loc[index, 'Date'] = file_row_content['Date'].values[0]
-            print(file_row_content['Date'].values[0])
             df.loc[index, 'Plaintiff'] = file_row_content['Plaintiff'].values[0]
             df.loc[index, 'Type'] = file_row_content['Type'].values[0]
             df.loc[index, 'Amount $'] = update_cred['Code'].values[0]
