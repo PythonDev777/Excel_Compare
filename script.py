@@ -4,7 +4,7 @@ import pandas as pd
 
 class ExcelCompare:
     def __init__(self):
-        self.master = f"{os.path.dirname(os.path.abspath(__file__))}/FRS  MASTER FILE WITH HEARING DATES C & I COUNTY COURT (1) (1).xlsx"
+        self.master = f"{os.path.dirname(os.path.abspath(__file__))}/FRS  MASTER FILE WITH HEARING DATES C & I COUNTY COURT.xlsx"
         self.format_file = f"{os.path.dirname(os.path.abspath(__file__))}/11_20_2020 BRWD FJ RAW.xlsx"
         self.master_case_numbers = []
 
@@ -20,10 +20,6 @@ class ExcelCompare:
                 continue
             print('Updating Case Number ....' + case_number)
             file_row_content = file.loc[file['Case #'] == case_number]
-            df.loc[index, 'Unnamed: 0'] = file_row_content['Unnamed: 0'].values[0]
-            df.loc[index, 'Unnamed: 0.1'] = file_row_content['Unnamed: 0.1'].values[0]
-            df.loc[index, 'Unnamed: 0.1.1'] = file_row_content['Unnamed: 0.1.1'].values[0]
-            df.loc[index, 'Unnamed: 0.1.1.1'] = file_row_content['Unnamed: 0.1.1.1'].values[0]
             df.loc[index, 'ClerkFileNumber'] = file_row_content['ClerkFileNumber'].values[0]
             df.loc[index, 'Date'] = file_row_content['Date'].values[0]
             df.loc[index, 'Plaintiff'] = file_row_content['Plaintiff'].values[0]
@@ -38,8 +34,8 @@ class ExcelCompare:
             df.loc[index, 'ST'] = update_cred['ST'].values[0]
             df.loc[index, 'Zip'] = update_cred['Zip Code'].values[0]
 
-        with pd.ExcelWriter(self.format_file, mode='w') as writer:
-            file.to_excel(writer)
+        with pd.ExcelWriter('test2.xlsx', mode='w') as writer:
+            df.to_excel(writer)
 
 
 if __name__ == '__main__':

@@ -131,7 +131,7 @@ class Ui_ExFileWindow(object):
 
         new_file_with_extension = self.new_file[0] + '.xlsx'
         with pd.ExcelWriter(new_file_with_extension, mode='w') as writer:
-            file.to_excel(writer)
+            df.to_excel(writer)
 
         msgbox = QtWidgets.QMessageBox()
         msgbox.setWindowTitle('Update')
